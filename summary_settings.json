@@ -1,0 +1,5 @@
+{
+  "login": "FLOW_USERNAME",
+  "password": "FLOW_PASSWORD",
+  "sports": ["MOUNTAIN_BIKING", "TRAIL_RUNNING"]
+}
