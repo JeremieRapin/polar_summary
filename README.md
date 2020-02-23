@@ -41,7 +41,6 @@ optional arguments:
   --month MONTH
   --year YEAR
 
-### Get current month summary
 $ ./polar_summary.py
 +-----------------+----------+----------+-------+--------+
 |      Sport      | Distance | Duration | Count | Ascent |
@@ -53,8 +52,12 @@ $ ./polar_summary.py
 
 ### Get specific month summary
 
+``` bash
 $ ./polar_summary.py --month 2 --year 2019
+```
 
 ### Get whole year summary
 
+``` bash
 $ ./polar_summary.py --whole --year 2017
+```
