@@ -88,6 +88,13 @@ def query_yearly_stats(session, sports, month, year, whole):
         params['to'] = str(days[1]) + "-" + str(month) +"-{}".format(year)
 
     results = []
+    total = {
+        'name' : 'Total',
+        'distance': 0,
+        'duration': 0,
+        'count': 0,
+        'ascent': 0
+    }
     for sport in sports:
         params['sport'] = [sport]
         resp = session.post(FLOW_GETREPORT_URL, json=params, headers=headers)
@@ -97,13 +104,25 @@ def query_yearly_stats(session, sports, month, year, whole):
         elif resp.status_code != 200:
             resp.raise_for_status()
         else:
+            distance = float(resp.json()["progressContainer"]["trainingReportSummary"]["totalDistance"] / 1000)
+            duration = int(resp.json()["progressContainer"]["trainingReportSummary"]["totalDuration"] / 1000)
+            count = int(resp.json()["progressContainer"]["trainingReportSummary"]["totalTrainingSessionCount"])
+            ascent = int(resp.json()["progressContainer"]["trainingReportSummary"]["totalAscent"])
+
+            total['distance'] += distance
+            total['duration'] += duration
+            total['count'] += count
+            total['ascent'] += ascent
+
             results.append({
                 'name': sport,
-                'distance': resp.json()["progressContainer"]["trainingReportSummary"]["totalDistance"] / 1000,
-                'duration': resp.json()["progressContainer"]["trainingReportSummary"]["totalDuration"] / 1000,
-                'count': resp.json()["progressContainer"]["trainingReportSummary"]["totalTrainingSessionCount"],
-                'ascent': resp.json()["progressContainer"]["trainingReportSummary"]["totalAscent"],
+                'distance': distance,
+                'duration': duration,
+                'count': count,
+                'ascent': ascent,
             })
+
+    results.append(total)
 
     return results
 
@@ -128,8 +147,6 @@ def arrayDisplay(results):
     out = PrettyTable()
 
     out.field_names = ["Sport", "Distance", "Duration", "Count", "Ascent"]
-
-    results.sort(key=sortByCount, reverse=True)
 
     for result in results:
         if result['count'] != 0:
