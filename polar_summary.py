@@ -72,8 +72,8 @@ def query_yearly_stats(session, sports, month, year, whole):
 
     params = {
         "barType":"distance",
-        "group":"month",
-        "report":"time",
+        "group":"day",
+        "report":"custom",
         "reportSubtype":"training",
         "timeFrame":"month"
     }
@@ -81,6 +81,7 @@ def query_yearly_stats(session, sports, month, year, whole):
     if whole:
         params['from'] = "01-01-{}".format(year)
         params['to'] = "31-12-{}".format(year)
+        params['timeFrame'] = 'year'
     else:
         days = monthrange(int(year), int(month))
         params['from'] = "01-" + str(month) + "-{}".format(year)
