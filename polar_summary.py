@@ -83,7 +83,7 @@ def query_yearly_stats(session, sports, month, year, whole):
         params['to'] = "31-12-{}".format(year)
     else:
         days = monthrange(int(year), int(month))
-        params['from'] = str(days[0]) + "-" + str(month) + "-{}".format(year)
+        params['from'] = "01-" + str(month) + "-{}".format(year)
         params['to'] = str(days[1]) + "-" + str(month) +"-{}".format(year)
 
     results = []
