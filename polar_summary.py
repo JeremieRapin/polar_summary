@@ -21,7 +21,6 @@ import re
 import requests
 from prettytable import PrettyTable
 from math import floor
-import time
 from calendar import monthrange
 
 
